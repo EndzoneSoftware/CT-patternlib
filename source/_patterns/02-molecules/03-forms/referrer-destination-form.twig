@@ -1,0 +1,41 @@
+<div class="form-group">
+	{# Case to be sent to #}
+	<label for="" class="col-sm-2 control-label">Case to be sent to:</label>
+
+  <input id="referrer_destination_network_id" type="hidden" value='{{ model.network_id }}'/>
+
+  {# Coordinator #}
+	<div class="col-sm-10">
+		<div class="radio">
+			<label>
+				<input type='radio' name='group' value='' id='group_0' onclick='validateGroup()' {{ not model.has_alloc_groups ? "checked='checked'" }} data-ct-required="true"/>
+				Coordinator
+			</label>
+		</div>
+
+    {# Dynamic Groups #}
+		{% if model.has_alloc_groups %}
+			{% for group in model.alloc_groups %}
+				<div class="radio">
+					<label>
+            <input type='radio' name='group' value='{{ group.value }}' id='group_{{ loop.index }}' onclick='validateGroup()' data-ct-required="true"/>
+						{{ group.name }}
+          </label>
+				</div>
+			{% endfor %}
+		{% endif %}
+    
+		<span id='group_span'></span>
+		{% if model.has_alloc_groups %}
+			{# Select who you would like the case to be sent to #}
+			<span id="helpBlock" class="help-block">
+        Select who you would like the case to be sent to (or select <b>Coordinator</b> if you want the Coordinator to choose the specialist for you)
+      </span>
+		{% else %}
+			{# Coordinator will choose the specialist for you #}
+			<span id="helpBlock" class="help-block">
+        (the Coordinator will choose the specialist for you)
+      </span>
+		{% endif %}
+	</div>
+</div>
